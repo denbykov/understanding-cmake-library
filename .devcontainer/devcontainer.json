@@ -1,0 +1,21 @@
+{
+    "build": {
+        "dockerfile": "Dockerfile"
+    },
+    "containerUser": "ubuntu",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools-extension-pack",
+                "ms-vscode.cpptools",
+                "ms-azuretools.vscode-docker",
+                "jeff-hykin.better-cpp-syntax",
+                "matepek.vscode-catch2-test-adapter",
+                "SteveBushResearch.BuildOutputColorizer",
+                "akiramiyakoda.cppincludeguard",
+                "eamodio.gitlens",
+                "vadimcn.vscode-lldb"
+            ]
+        }
+    }
+}

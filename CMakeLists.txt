@@ -6,22 +6,32 @@ add_compile_options(-Wall -Wextra -pedantic)
 
 include(.cmake/All.cmake)
 
-set(LIBRARY_SOURCE_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/source)
-set(LIBRARY_HEADER_FILES_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/include/my_library)
+set(LIBRARY_NAME my_library)
+
+set(${LIBRARY_NAME}_SOURCE_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/source)
+set(${LIBRARY_NAME}_HEADER_FILES_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/include/my_library)
 
 add_subdirectory(source)
 
-add_library(my_library ${SOURCE_FILES} ${HEADER_FILES})
+add_library(${LIBRARY_NAME} ${SOURCE_FILES} ${HEADER_FILES} ${INTERFACE_HEADER_FILES})
 
 configure_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/Config.h.in"
     "${CMAKE_CURRENT_SOURCE_DIR}/Config.h"
 )
 
+target_include_directories(${LIBRARY_NAME}
+    PRIVATE include
+    PRIVATE source
+    INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>
+)
+
 prepare_for_installation(
-    TARGET my_library
+    TARGET ${LIBRARY_NAME}
     PACKAGE_NAME "my_library"
-    HEADERS_LOCATION ${LIBRARY_HEADER_FILES_LOCATION}
+    HEADERS_LOCATION include/my_library
 )
 
 set(CPACK_PACKAGE_VERSION_MAJOR "${${PROJECT_NAME}_VERSION_MAJOR}")
